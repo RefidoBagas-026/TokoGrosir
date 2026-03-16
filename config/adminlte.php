@@ -112,13 +112,6 @@ return [
     'preloader' => [
         'enabled' => true,
         'mode' => 'fullscreen',
-        'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
-        ],
     ],
 
     /*
@@ -365,6 +358,12 @@ return [
             'url'  => 'user',
             'icon' => 'fas fa-users-cog',
             'menu_code' => 'M7',
+        ],
+        [
+            'text' => 'HAK AKSES MENU',
+            'url'  => 'menu-permission',
+            'icon' => 'fas fa-key',
+            'menu_code' => 'M8',
         ],
 
         // [

@@ -10,6 +10,7 @@ use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MenuPermissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -103,3 +104,9 @@ Route::get('/export-stock', function (Request $request) {
 
 //user management
 Route::resource('/user', UserController::class)->middleware(['auth', 'menu.permission:M7']);
+
+//menu permission management
+Route::middleware(['auth', 'menu.permission:M8'])->group(function () {
+    Route::get('/menu-permission', [MenuPermissionController::class, 'index'])->name('menu-permission.index');
+    Route::put('/menu-permission', [MenuPermissionController::class, 'update'])->name('menu-permission.update');
+});
