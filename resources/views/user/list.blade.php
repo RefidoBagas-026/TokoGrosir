@@ -12,6 +12,24 @@
             <div class="card">
                 <div class="card-body">
 
+                    @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('error') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+
                     <div class="float-right">
                         <a href="{{ route('user.create') }}" class="btn btn-success">
                             <i class="fas fa-plus"></i>
@@ -23,7 +41,7 @@
                             <tr>
                                 <th data-orderable="false" scope="col">#</th>
                                 <th scope="col">Nama</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Username</th>
                                 <th scope="col">Role</th>
                                 <th data-orderable="false" scope="col" width="350px">Action</th>
                             </tr>
@@ -33,7 +51,7 @@
                             <tr>
                                 <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->username }}</td>
                                 <td>{{ $user->role ? $user->role->name : '-' }}</td>
                                 <td>
                                     <div class="d-flex justify-content-around">

@@ -360,6 +360,12 @@ return [
             'menu_code' => 'M7',
         ],
         [
+            'text' => 'KELOLA ROLE',
+            'url'  => 'role',
+            'icon' => 'fas fa-user-tag',
+            'menu_code' => 'M9',
+        ],
+        [
             'text' => 'HAK AKSES MENU',
             'url'  => 'menu-permission',
             'icon' => 'fas fa-key',

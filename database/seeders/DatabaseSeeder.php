@@ -19,26 +19,26 @@ class DatabaseSeeder extends Seeder
         $admin = Role::where('name', 'admin')->first();
         $kasir = Role::where('name', 'kasir')->first();
 
-        // // Super Admin
-        // User::create([
-        //     'name' => 'Super Admin',
-        //     'email' => 'superadmin@gmail.com',
-        //     'password' => bcrypt('123'),
-        //     'role_id' => $superadmin->id,
-        // ]);
+        // Super Admin
+        User::create([
+            'name' => 'Super Admin',
+            'username' => 'superadmin',
+            'password' => bcrypt('123'),
+            'role_id' => $superadmin->id,
+        ]);
 
-        // // Admin
-        // User::create([
-        //     'name' => 'Admin Gudang',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => bcrypt('123'),
-        //     'role_id' => $admin->id,
-        // ]);
+        // Admin
+        User::create([
+            'name' => 'Admin Gudang',
+            'username' => 'admin',
+            'password' => bcrypt('123'),
+            'role_id' => $admin->id,
+        ]);
 
         // Kasir
         User::create([
             'name' => 'Kasir',
-            'email' => 'kasir@gmail.com',
+            'username' => 'kasir',
             'password' => bcrypt('123'),
             'role_id' => $kasir->id,
         ]);

@@ -17,19 +17,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string',
             'password' => 'required',
         ]);
 
         if (FacadesAuth::attempt($credentials)) {
-            if ($request->email != 'admin@123.com')
-                return redirect()->route('dashboard')->with('success', 'Login berhasil!');
-            else
-                return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'username' => 'Username atau password salah.',
         ]);
     }
 

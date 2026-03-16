@@ -26,6 +26,7 @@ class RoleMenuPermissionSeeder extends Seeder
             ['name' => 'Hutang', 'menu_code' => 'M6', 'route' => 'debt'],
             ['name' => 'Kelola User', 'menu_code' => 'M7', 'route' => 'user'],
             ['name' => 'Hak Akses Menu', 'menu_code' => 'M8', 'route' => 'menu-permission'],
+            ['name' => 'Kelola Role', 'menu_code' => 'M9', 'route' => 'role'],
         ];
 
         foreach ($menus as $menuData) {

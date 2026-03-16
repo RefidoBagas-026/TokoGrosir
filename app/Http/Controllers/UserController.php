@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -28,19 +29,21 @@ class UserController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
+                'username' => 'required|string|max:255|unique:users,username',
                 'password' => 'required|string|min:6|confirmed',
                 'role_id' => 'required|exists:roles,id',
             ]);
 
             User::create([
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
                 'password' => $request->password,
                 'role_id' => $request->role_id,
             ]);
 
             return redirect()->route('user.index')->with('success', 'Berhasil menambahkan user');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (\Throwable $th) {
             return redirect()->route('user.index')->with('error', $th->getMessage());
         }
@@ -58,10 +61,11 @@ class UserController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => [
+                'username' => [
                     'required',
-                    'email',
-                    Rule::unique('users', 'email')->ignore($id),
+                    'string',
+                    'max:255',
+                    Rule::unique('users', 'username')->ignore($id),
                 ],
                 'role_id' => 'required|exists:roles,id',
                 'password' => 'nullable|string|min:6|confirmed',
@@ -71,7 +75,7 @@ class UserController extends Controller
 
             $data = [
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
                 'role_id' => $request->role_id,
             ];
 
@@ -82,6 +86,8 @@ class UserController extends Controller
             $user->update($data);
 
             return redirect()->route('user.index')->with('success', 'Berhasil update user');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (\Throwable $th) {
             return redirect()->route('user.index')->with('error', $th->getMessage());
         }
