@@ -16,12 +16,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 //AUTH
 Route::get('/', function () {
-    // Jika pengguna belum login, arahkan ke halaman login
     if (Auth::check()) {
-        return redirect()->route('login');
+        return redirect()->route('dashboard');
     }
-    // Jika sudah login, arahkan ke dashboard
-    return redirect()->route('dashboard');
+    return redirect()->route('login');
 });
 
 
@@ -40,20 +38,25 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 //product
-Route::resource('/product', ProductController::class);
+Route::resource('/product', ProductController::class)->middleware(['auth', 'menu.permission:M2']);
 
 //purchasing
-Route::resource('/purchasing', PurchasingController::class);
+Route::resource('/purchasing', PurchasingController::class)->middleware(['auth', 'menu.permission:M3']);
 
 //stock
-Route::resource('/stock', StockController::class);
-Route::get('/stock/conversion/{id}', [StockController::class, 'editConversion'])->name('stock.conversion');
-Route::put('/stock/conversion/{id}', [StockController::class, 'updateConversion'])->name('stock.conversion');
+Route::middleware(['auth', 'menu.permission:M4'])->group(function () {
+    Route::resource('/stock', StockController::class);
+    Route::get('/stock/conversion/{id}', [StockController::class, 'editConversion'])->name('stock.conversion');
+    Route::put('/stock/conversion/{id}', [StockController::class, 'updateConversion'])->name('stock.conversion');
+});
 
 //sales
-Route::resource('/sales', SalesController::class);
-Route::get('/debt', [SalesController::class, 'debt'])->name('sales.debt');
-Route::get('/sales/print/{id}', [SalesController::class, 'print'])->name('sales.print');
+Route::middleware(['auth', 'menu.permission:M5'])->group(function () {
+    Route::resource('/sales', SalesController::class);
+    Route::get('/sales/print/{id}', [SalesController::class, 'print'])->name('sales.print');
+});
+
+Route::get('/debt', [SalesController::class, 'debt'])->middleware(['auth', 'menu.permission:M6'])->name('sales.debt');
 
 //export
 Route::get('/export-purchasing', function (Request $request) {
@@ -68,7 +71,7 @@ Route::get('/export-purchasing', function (Request $request) {
         $request->dateTo,
         $request->productName
     ), $fileName);
-})->name('export.purchasing');
+})->middleware(['auth', 'menu.permission:M3'])->name('export.purchasing');
 
 Route::get('/export-sales', function (Request $request) {
     $dateFrom = $request->dateFrom ?? 'ALL';
@@ -83,7 +86,7 @@ Route::get('/export-sales', function (Request $request) {
         $request->productName,
         $request->status // Add status parameter
     ), $fileName);
-})->name('export.sales');
+})->middleware(['auth', 'menu.permission:M5'])->name('export.sales');
 
 Route::get('/export-stock', function (Request $request) {
     $productName = $request->productName ?? 'ALL';
@@ -95,4 +98,4 @@ Route::get('/export-stock', function (Request $request) {
         $request->dateTo,
         $request->productName
     ), $fileName);
-})->name('export.stock');
+})->middleware(['auth', 'menu.permission:M4'])->name('export.stock');

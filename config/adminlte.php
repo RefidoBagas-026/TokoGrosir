@@ -316,6 +316,7 @@ return [
             'text' => 'Dashboard',
             'url'  => 'dashboard',
             'icon' => 'fas fa-tachometer-alt',
+            'menu_code' => 'M1',
         ],
 
         //Menu
@@ -324,6 +325,7 @@ return [
             'text' => 'BARANG',
             'url'  => 'product',
             'icon' => 'fas fa-shopping-bag',
+            'menu_code' => 'M2',
         ],
 
         //Menu
@@ -332,6 +334,7 @@ return [
             'text' => 'PEMBELIAN',
             'url'  => 'purchasing',
             'icon' => 'fas fa-cart-plus',
+            'menu_code' => 'M3',
         ],
 
         ['header' => 'STOCK'],
@@ -339,6 +342,7 @@ return [
             'text' => 'STOCK',
             'url'  => 'stock',
             'icon' => 'fas fa-fw fa-file',
+            'menu_code' => 'M4',
         ],
 
         ['header' => 'PENJUALAN'],
@@ -346,11 +350,13 @@ return [
             'text' => 'PENJUALAN',
             'url'  => 'sales',
             'icon' => 'fas fa-truck',
+            'menu_code' => 'M5',
         ],
         [
             'text' => 'HUTANG',
             'url'  => 'debt',
             'icon' => 'fas fa-fw fa-file',
+            'menu_code' => 'M6',
         ],
 
         // [
@@ -449,6 +455,8 @@ return [
     */
 
     'filters' => [
+        App\MenuFilters\MenuPermissionFilter::class,
+        
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,
