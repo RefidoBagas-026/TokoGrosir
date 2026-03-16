@@ -359,6 +359,14 @@ return [
             'menu_code' => 'M6',
         ],
 
+        ['header' => 'AUTH', 'menu_code' => 'M7'],
+        [
+            'text' => 'KELOLA USER',
+            'url'  => 'user',
+            'icon' => 'fas fa-users-cog',
+            'menu_code' => 'M7',
+        ],
+
         // [
         //     'type' => 'sidebar-menu-search',
         //     'text' => 'search',

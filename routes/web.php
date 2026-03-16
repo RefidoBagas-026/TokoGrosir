@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -99,3 +100,6 @@ Route::get('/export-stock', function (Request $request) {
         $request->productName
     ), $fileName);
 })->middleware(['auth', 'menu.permission:M4'])->name('export.stock');
+
+//user management
+Route::resource('/user', UserController::class)->middleware(['auth', 'menu.permission:M7']);
