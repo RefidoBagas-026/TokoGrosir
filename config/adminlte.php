@@ -311,7 +311,7 @@ return [
         ],
 
         // Sidebar items:
-        ['header' => 'DASHBOARD'],
+        ['header' => 'DASHBOARD', 'menu_code' => 'M1'],
         [
             'text' => 'Dashboard',
             'url'  => 'dashboard',
@@ -320,7 +320,7 @@ return [
         ],
 
         //Menu
-        ['header' => 'MENU MASTER'],
+        ['header' => 'MENU MASTER', 'menu_code' => 'M2'],
         [
             'text' => 'BARANG',
             'url'  => 'product',
@@ -329,7 +329,7 @@ return [
         ],
 
         //Menu
-        ['header' => 'TRANSAKSI'],
+        ['header' => 'TRANSAKSI', 'menu_code' => 'M3'],
         [
             'text' => 'PEMBELIAN',
             'url'  => 'purchasing',
@@ -337,7 +337,7 @@ return [
             'menu_code' => 'M3',
         ],
 
-        ['header' => 'STOCK'],
+        ['header' => 'STOCK', 'menu_code' => 'M4'],
         [
             'text' => 'STOCK',
             'url'  => 'stock',
@@ -345,7 +345,7 @@ return [
             'menu_code' => 'M4',
         ],
 
-        ['header' => 'PENJUALAN'],
+        ['header' => 'PENJUALAN', 'menu_code' => 'M5'],
         [
             'text' => 'PENJUALAN',
             'url'  => 'sales',

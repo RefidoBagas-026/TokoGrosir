@@ -8,6 +8,7 @@ use App\Models\Sales;
 use App\Models\SalesItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -15,8 +16,11 @@ class DashboardController extends Controller
     //
     public function index()
     {
-        // Get total purchasing amount
-        $totalPurchasing = Purchasing::whereMonth('date', Carbon::now()->month)
+        $user = Auth::user();
+        $isKasir = $user->role && $user->role->name === 'kasir';
+
+        // Get total purchasing amount (hidden for kasir)
+        $totalPurchasing = $isKasir ? 0 : Purchasing::whereMonth('date', Carbon::now()->month)
             ->whereNull('deleted_at') // Ensures soft deleted records are excluded
             ->sum('smallPrice');
 
@@ -68,6 +72,6 @@ class DashboardController extends Controller
             ->orderBy('total_sold', 'DESC') // Urutkan dari yang paling laris
             ->get();
 
-        return view('dashboard', compact('totalPurchasing', 'totalSales', 'totalProfit', 'totalDebt', 'salesData', 'monthlyProfit'));
+        return view('dashboard', compact('totalPurchasing', 'totalSales', 'totalProfit', 'totalDebt', 'salesData', 'monthlyProfit', 'isKasir'));
     }
 }

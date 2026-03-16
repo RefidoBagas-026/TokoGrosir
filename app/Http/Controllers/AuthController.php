@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -39,6 +38,6 @@ class AuthController extends Controller
             Session::flush();
             FacadesAuth::logout();
 
-            return Redirect('login');
+            return redirect('login');
         }
 }

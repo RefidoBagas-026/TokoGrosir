@@ -10,7 +10,6 @@ use App\Models\SalesItem;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Mockery\Undefined;
 
 class SalesController extends Controller
 {
@@ -78,8 +77,8 @@ class SalesController extends Controller
                 $stock->save();
 
                 //insert sales item data
-                SalesItem::create([
-                    'sales_id' => Sales::latest()->first()->id,
+                $salesItem = SalesItem::create([
+                    'sales_id' => $sales->id,
                     'productId' => $item['productId'],
                     'productName' => $item['productName'],
                     'uom' => $item['uom'],
@@ -100,7 +99,7 @@ class SalesController extends Controller
                     'date' =>  $request->date,
                     'pricePerUnit' => $item['sellingPricePerUnit'],
                     'totalPrice' => $item['totalPrice'],
-                    'salesItem_id' => SalesItem::latest()->first()->id,
+                    'salesItem_id' => $salesItem->id,
                 ]);
             }
 
