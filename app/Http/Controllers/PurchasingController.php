@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PurchasingController extends Controller
 {
@@ -38,6 +39,7 @@ class PurchasingController extends Controller
     public function store(Request $request)
     {
         try {
+            
             DB::beginTransaction(); // Start transaction
             //validasi data yang diterima
             $request->validate([
@@ -53,7 +55,7 @@ class PurchasingController extends Controller
             // mengambil data yang diterima dan disimpan pada variable $request
             $request['pricePerUnit'] = $request->smallPrice / $request->smallQty;
             $request['purchaseStatus'] = 'LUNAS';
-
+            $request['created_by'] = Auth::user()->name;
             // menjalankan fungsi insert pada table purchasing 
             Purchasing::create($request->all());
             // redirect ke halaman list purchasing
@@ -97,8 +99,7 @@ class PurchasingController extends Controller
             InventoryMovement::create($inventoryMovement);
 
             DB::commit(); // Commit transaction if everything is successful
-
-            return redirect()->route('purchasing.index')->with('success', 'Berhasil menambahkan data');
+            return redirect()->route('purchasing.print', ['id' => Purchasing::latest()->first()->id])->with('success', 'Berhasil menambahkan data');
         } catch (\Throwable $th) {
             DB::rollBack(); // Rollback all changes if any error occurs
             //munculkan error tanpa meredirect ke halaman manapun dan jangan menghapus data yang sudah diinput
@@ -161,7 +162,7 @@ class PurchasingController extends Controller
             // mengambil data yang diterima dan disimpan pada variable $request
             $request['pricePerUnit'] =  $request->smallPrice / $request->smallQty;
             $request['purchaseStatus'] = 'LUNAS';
-
+            $request['updated_by'] = Auth::user()->name;
             //update stock
             $stock = Stock::where('productId', $request->productId)
                 ->where('uom', $request->smallUom)->first();
@@ -245,5 +246,11 @@ class PurchasingController extends Controller
             DB::rollBack(); // Rollback all changes if any error occurs
             return back()->with('error', $th->getMessage());
         }
+    }
+
+    public function print($id)
+    {
+        $purchase = Purchasing::where('id', $id)->first();
+        return view('purchasing.print', compact('purchase'));
     }
 }

@@ -42,11 +42,11 @@
                                 <td>{{ number_format($c->totalPayment, 0, ',', '.') }}</td>
                                 <td>{{ number_format($c->remainingPayment, 0, ',', '.') }}</td>
                                 <td>{{ $c->status }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-around">
+                                <td style="display: flex; gap: 5px;">
+                                    <div>
                                         <a href="{{ route('sales.edit',$c->id)}}" class="btn btn-primary">
                                             <i class="fas fa-edit"></i>
-                                            Edit</a>
+                                        </a>
                                         <form action="{{ route('sales.destroy',$c->id)}}" method="POST">
                                             <!-- @csrf
                                             @method('DELETE')

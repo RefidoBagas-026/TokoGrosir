@@ -53,17 +53,19 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->role ? $user->role->name : '-' }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-around">
+                               <td style="display: flex; gap: 5px;">
+                                    <div>
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">
                                             <i class="fas fa-edit"></i>
-                                            Edit</a>
+                                        </a>
+                                    </div>
+                                    <div>
                                         <form action="{{ route('user.destroy', $user->id, false) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">
                                                 <i class="fas fa-trash"></i>
-                                                Delete</button>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>

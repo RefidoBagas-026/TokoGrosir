@@ -26,5 +26,7 @@ class Purchasing extends Model
         'smallUom',
         'smallPrice',
         'pricePerUnit',
+        'created_by',
+        'updated_by',
     ];
 }

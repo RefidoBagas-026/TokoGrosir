@@ -93,24 +93,27 @@
                                 <td>{{ number_format($c->totalPayment, 0, ',', '.') }}</td>
                                 <td>{{ number_format($c->remainingPayment, 0, ',', '.') }}</td>
                                 <td>{{ $c->status }}</td>
-                                <td>
-                                    <div class="d-flex right-content-around">
+                                <td style="display: flex; gap: 5px;">
+                                    <!-- <div class="d-flex right-content-around"> -->
+                                        <div>
                                         <a href="{{ route('sales.edit',$c->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        &nbsp;
+                                        </div>
+                                        <div>
                                         <form action="{{ route('sales.destroy',$c->id,false)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus" onclick="return confirm('Yakin ingin menghapus data penjualan ini?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
-                                        &nbsp;
+                                        </div>
+                                        <div>
                                         <a href="{{ route('sales.print',$c->id)}}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Cetak Nota">
                                             <i class="fas fa-print"></i>
                                         </a>
-                                    </div>
+                                        </div>
 
                                 </td>
                             </tr>
@@ -123,7 +126,7 @@
                     <!-- PAGINATION -->
                     <!-- <div class="d-flex justify-content-between align-items-center mb-2"> -->
                     <!-- <p><strong>Menampilkan {{ $data->count() }} dari {{ $data->total() }} data</strong></p> -->
-                    <div>
+                    <div class="d-flex mt-4 justify-content-center">
                         {{ $data->links() }}
                     </div>
                     <!-- </div> -->

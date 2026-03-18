@@ -33,17 +33,19 @@
                                 <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $role->name }}</td>
                                 <td>{{ $role->users()->count() }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-around">
+                                <td style="display: flex; gap: 5px;">
+                                    <div>
                                         <a href="{{ route('role.edit', $role->id) }}" class="btn btn-primary">
                                             <i class="fas fa-edit"></i>
-                                            Edit</a>
+                                        </a>
+                                    </div>
+                                    <div>
                                         <form action="{{ route('role.destroy', $role->id, false) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus role ini?')">
                                                 <i class="fas fa-trash"></i>
-                                                Delete</button>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
@@ -52,7 +54,7 @@
                         </tbody>
                     </table>
 
-                    <div>
+                    <div class="d-flex mt-4 justify-content-center">
                         {{ $roles->links() }}
                     </div>
 

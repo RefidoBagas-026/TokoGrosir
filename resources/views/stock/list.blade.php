@@ -81,12 +81,13 @@
                                 <td>{{ $c->remainingStock }}</td>
                                 <td>{{ number_format($c->pricePerUnit, 0, ',', '.') }}</td>
                                 <td>{{ number_format($c->sellingPricePerUnit, 0, ',', '.') }}</td>
-                                <td>
-                                    <div class="d-flex right-content-around">
+                                <td style="display: flex; gap: 5px;">
+                                    <div>
                                         <a href="{{ route('stock.edit',$c->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        &nbsp;
+                                    </div>
+                                    <div>
                                         <a href="{{ route('stock.conversion',$c->id)}}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Conversi">
                                             <i class="fas fa-exchange-alt"></i>
                                         </a>
@@ -102,7 +103,7 @@
                     <!-- PAGINATION -->
                     <!-- <div class="d-flex justify-content-between align-items-center mb-2">
                         <p><strong>Menampilkan {{ $data->count() }} dari {{ $data->total() }} data</strong></p> -->
-                    <div>
+                    <div class="d-flex mt-4 justify-content-center">
                         {{ $data->links() }}
                     </div>
                     <!-- </div> -->

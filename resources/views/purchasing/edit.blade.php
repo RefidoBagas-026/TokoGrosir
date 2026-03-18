@@ -35,8 +35,7 @@
                         <div class="row mb-3">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Tanggal Pembelian</label>
                             <div class="col-sm-10">
-                                <x-adminlte-input-date type="date" name="date" id="date" value="{{$data->date}}" required />
-
+                                <x-adminlte-input-date name="date" id="date" :config="['format' => 'YYYY-MM-DD']" value="{{$data->date}}" required />
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -122,7 +121,7 @@
 @section('js')
 
 <!-- Load jQuery First -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 <!-- AUTO UPDATE CONVERSION FIELDS -->
 <script>

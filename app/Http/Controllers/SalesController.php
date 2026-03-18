@@ -109,8 +109,11 @@ class SalesController extends Controller
 
             // Redirect to print preview route
             return redirect()->route('sales.print', ['id' => $sales->id]);
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -342,6 +345,8 @@ class SalesController extends Controller
 
     public function print($id)
     {
+        $user = Auth::user();
+        $isKasir = $user->role && $user->role->name === 'kasir';
         $sales = Sales::with('items')->findOrFail($id);
         return view('sales.print', compact('sales'));
     }

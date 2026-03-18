@@ -108,7 +108,6 @@
                     </select>
                      <input type="hidden" name="items[${index}][productName]" class="productName">
                      <input type="hidden" name="items[${index}][productId]" class="productId">
-                    <input type="hidden" name="items[${index}][stockId]" class="stockId">
                    
                 </td>
                 <td><input type="text" name="items[${index}][uom]" class="form-control uom" readonly required></td>
@@ -144,7 +143,6 @@
                 select.addEventListener("change", function() {
                     let selectedOption = this.options[this.selectedIndex];
                     let row = this.closest("tr");
-                    row.querySelector(".stockId").value = selectedOption.value;
                     row.querySelector(".uom").value = selectedOption.getAttribute("data-uom");
                     row.querySelector(".pricePerUnit").value = selectedOption.getAttribute("data-pricePerUnit");
                     row.querySelector(".productName").value = selectedOption.getAttribute("data-productName");
@@ -237,7 +235,7 @@
 
             document.querySelectorAll(".product-select option").forEach(option => {
                 if (option.value) {
-                    option.disabled = selectedProducts.has(option.value);
+                    option.hidden = selectedProducts.has(option.value);
                 }
             });
         }

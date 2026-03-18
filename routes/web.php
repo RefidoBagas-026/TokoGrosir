@@ -45,6 +45,9 @@ Route::resource('/product', ProductController::class)->middleware(['auth', 'menu
 
 //purchasing
 Route::resource('/purchasing', PurchasingController::class)->middleware(['auth', 'menu.permission:M3']);
+Route::get('/purchasing/print/{id}', [PurchasingController::class, 'print'])
+    ->middleware(['auth', 'menu.permission:M3'])
+    ->name('purchasing.print');
 
 //stock
 Route::middleware(['auth', 'menu.permission:M4'])->group(function () {

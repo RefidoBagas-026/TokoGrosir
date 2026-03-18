@@ -48,20 +48,21 @@
                                 <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $c->name }}</td>
                                 <td>{{ $c->uom }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-around">
+                                <td style="display: flex; gap: 5px;">
+                                    <div>
                                         <a href="{{ route('product.edit',$c->id)}}" class="btn btn-primary">
                                             <i class="fas fa-edit"></i>
-                                            Edit</a>
+                                        </a>
+                                    </div>
+                                    <div>
                                         <form action="{{ route('product.destroy',$c->id,false)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data barang ini?')">
                                                 <i class="fas fa-trash"></i>
-                                                Delete</button>
+                                            </button>
                                         </form>
                                     </div>
-
                                 </td>
                             </tr>
                             @endforeach
@@ -70,7 +71,7 @@
                         </tbody>
                     </table>
 
-                    <div>
+                    <div class="d-flex mt-4 justify-content-center">
                         {{ $product->links() }}
                     </div>
 
