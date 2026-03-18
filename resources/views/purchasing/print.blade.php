@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Print Purchase Receipt')
+@section('title', 'Print Nota Pembelian')
 
 @section('content')
 <div class="container pt-4">
@@ -13,16 +13,12 @@
                 <div class="card-body">
                     <table>
                         <tr>
-                            <td><strong>Supplier</strong></td>
-                            <td>: {{ $purchase->supplierName }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Penerima</strong></td>
-                            <td>: {{ $purchase->created_by }}</td>
-                        </tr>
-                        <tr>
                             <td><strong>Tanggal Pembelian</strong></td>
                             <td>: {{ date('d-M-Y', strtotime($purchase->date)) }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Supplier</strong></td>
+                            <td>: {{ $purchase->supplierName }}</td>
                         </tr>
                     </table>
                     <hr>
@@ -47,6 +43,15 @@
                     </table>
 
                     <hr>
+                    
+                    <div class="mb-5 d-flex flex-column justify-content-center align-items-end">
+                        <h5 class="mb-4"><strong>Total: Rp {{ number_format($purchase->purchasePrice, 0, ',', '.') }}</strong></h5>
+                        <div class="text-center" style="padding: 0 20px;">
+                           <P>Penerima Barang</p>
+                            <br><br><br>
+                            <p><strong>{{ $purchase->created_by }}</strong></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer text-center">
                     <button onclick="window.print()" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
