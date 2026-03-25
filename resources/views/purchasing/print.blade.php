@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4>Nota Pembelian</h4>
+                    <h4>Bukti Terima</h4>
                 </div>
                 <div class="card-body">
                     <table>
@@ -47,9 +47,10 @@
                     <div class="mb-5 d-flex flex-column justify-content-center align-items-end">
                         <h5 class="mb-4"><strong>Total: Rp {{ number_format($purchase->purchasePrice, 0, ',', '.') }}</strong></h5>
                         <div class="text-center" style="padding: 0 20px;">
-                           <P>Penerima Barang</p>
+                           <p>Penerima Barang</p>
                             <br><br><br>
-                            <p><strong>{{ $purchase->created_by }}</strong></p>
+                            <p class="mb-0">{{ $purchase->created_by }}</p>
+                            <p><strong>Ruko Telur KSM Purbayan</strong></p>
                         </div>
                     </div>
                 </div>

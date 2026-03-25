@@ -23,7 +23,6 @@
                                 <thead class="bg-primary">
                                     <tr>
                                         <th>Menu</th>
-                                        <th>Kode</th>
                                         @foreach ($roles as $role)
                                         <th class="text-center">{{ ucfirst($role->name) }}</th>
                                         @endforeach
@@ -33,7 +32,6 @@
                                     @foreach ($menus as $menu)
                                     <tr>
                                         <td>{{ $menu->name }}</td>
-                                        <td><span class="badge badge-info">{{ $menu->menu_code }}</span></td>
                                         @foreach ($roles as $role)
                                         <td class="text-center">
                                             <div class="custom-control custom-checkbox">

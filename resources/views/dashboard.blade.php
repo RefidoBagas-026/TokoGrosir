@@ -8,7 +8,6 @@
 
 @section('content')
 <div class="row">
-    @if(!$isKasir)
     <div class="col-lg-3 col-6">
         <div class="small-box bg-info">
             <div class="inner">
@@ -18,7 +17,7 @@
             <div class="icon"><i class="fas fa-shopping-cart"></i></div>
         </div>
     </div>
-    @endif
+    
 
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">

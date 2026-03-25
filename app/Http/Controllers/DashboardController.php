@@ -18,7 +18,10 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $isKasir = $user->role && $user->role->name === 'kasir';
-
+        if ($isKasir) {
+            // Jika role adalah kasir, tampilkan halaman kosong atau halaman khusus untuk kasir
+            return view('blank', compact('isKasir'));
+        }
         // Get total purchasing amount (hidden for kasir)
         $totalPurchasing = $isKasir ? 0 : Purchasing::whereMonth('date', Carbon::now()->month)
             ->whereNull('deleted_at') // Ensures soft deleted records are excluded

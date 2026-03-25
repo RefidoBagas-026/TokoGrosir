@@ -345,9 +345,9 @@ class SalesController extends Controller
 
     public function print($id)
     {
-        $user = Auth::user();
-        $isKasir = $user->role && $user->role->name === 'kasir';
+        // $user = Auth::user();
+        //$isKasir = $user->role && $user->role->name === 'kasir';
         $sales = Sales::with('items')->findOrFail($id);
-        return view('sales.print', compact('sales'));
+        return view('sales.print2', compact('sales'));
     }
 }
