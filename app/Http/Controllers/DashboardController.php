@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $isKasir = $user->role && $user->role->name === 'kasir';
@@ -22,59 +22,79 @@ class DashboardController extends Controller
             // Jika role adalah kasir, tampilkan halaman kosong atau halaman khusus untuk kasir
             return view('blank', compact('isKasir'));
         }
-        // Get total purchasing amount (hidden for kasir)
-        $totalPurchasing = $isKasir ? 0 : Purchasing::whereMonth('date', Carbon::now()->month)
-            ->whereNull('deleted_at') // Ensures soft deleted records are excluded
-            ->sum('smallPrice');
 
-        // Get total sales amount
-        $totalSales = Sales::whereMonth('date', Carbon::now()->month)
-            ->whereNull('deleted_at') // Ensures soft deleted records are excluded
-            ->sum('totalPrice');
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
 
-        // Get total profit sum(sellingPricePerUnit - pricePerUnit) * qty
-        $totalProfit = Sales::where('status', 'LUNAS')
-            ->whereMonth('date', Carbon::now()->month)
-            ->whereNull('sales.deleted_at') // Ensures soft deleted records are excluded
-            ->join('sales_items', function ($join) {
-                $join->on('sales.id', '=', 'sales_items.sales_id')
-                    ->whereNull('sales_items.deleted_at'); // Exclude soft-deleted sales items
-            })
-            ->sum(DB::raw('(sales_items.sellingPricePerUnit - sales_items.pricePerUnit) * sales_items.qty'));
+        $purchasingQuery = Purchasing::whereNull('deleted_at');
+        $salesQuery = Sales::whereNull('sales.deleted_at');
 
-        // Get total debt (unpaid sales)
-        $totalDebt = Sales::whereMonth('date', Carbon::now()->month)
-            ->whereNull('deleted_at') // Ensures soft deleted records are excluded
-            ->where('remainingPayment', '>', 0)
-            ->sum(DB::raw('remainingPayment'));
+         if ($startDate && $endDate) {
+            $start = Carbon::parse($startDate)->startOfDay();
+            $end = Carbon::parse($endDate)->endOfDay();
 
-        // Get monthly profit
-        $monthlyProfit = Sales::select(
-            DB::raw('MONTH(sales.date) as month'),
-            DB::raw('SUM((sales_items.sellingPricePerUnit - sales_items.pricePerUnit) * sales_items.qty) as total_profit')
+            $purchasingQuery->whereBetween('date', [$start, $end]);
+            $salesQuery->whereBetween('date', [$start, $end]);
+        }
+        $totalPurchasing = $purchasingQuery->sum('smallPrice');
+
+    $totalSales = (clone $salesQuery)->sum('totalPrice');
+
+    $totalProfit = (clone $salesQuery)
+        ->where('status', 'LUNAS')
+        ->join('sales_items', function ($join) {
+            $join->on('sales.id', '=', 'sales_items.sales_id')
+                ->whereNull('sales_items.deleted_at');
+        })
+        ->sum(DB::raw('(sales_items.sellingPricePerUnit - sales_items.pricePerUnit) * sales_items.qty'));
+
+    $totalDebt = (clone $salesQuery)
+        ->where('remainingPayment', '>', 0)
+        ->sum('remainingPayment');
+
+    $monthlyProfit = Sales::select(
+        DB::raw('MONTH(sales.date) as month'),
+        DB::raw('SUM((sales_items.sellingPricePerUnit - sales_items.pricePerUnit) * sales_items.qty) as total_profit')
+    )
+        ->join('sales_items', 'sales.id', '=', 'sales_items.sales_id')
+        ->where('sales.status', 'LUNAS')
+        ->whereNull('sales.deleted_at')
+        ->whereNull('sales_items.deleted_at')
+        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('sales.date', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        })
+        ->groupBy(DB::raw('MONTH(sales.date)'))
+        ->orderBy(DB::raw('MONTH(sales.date)'))
+        ->get();
+
+    $salesData = Sales::join('sales_items', 'sales.id', '=', 'sales_items.sales_id')
+        ->whereNull('sales.deleted_at')
+        ->whereNull('sales_items.deleted_at')
+        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('sales.date', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        })
+        ->select(
+            'sales_items.productName',
+            DB::raw('SUM(sales_items.qty) as total_sold')
         )
-            ->join('sales_items', 'sales.id', '=', 'sales_items.sales_id')
-            ->where('sales.status', 'LUNAS')
-            ->whereYear('sales.date', Carbon::now()->year) // Ambil hanya data tahun ini
-            ->whereNull('sales.deleted_at') // Ensures soft deleted records are excluded
-            ->whereNull('sales_items.deleted_at') // Ensures soft deleted records are excluded
-            ->groupBy(DB::raw('MONTH(sales.date)')) // Grouping berdasarkan bulan
-            ->orderBy(DB::raw('MONTH(sales.date)')) // Urutkan berdasarkan bulan
-            ->get();
+        ->groupBy('sales_items.productName')
+        ->orderBy('total_sold', 'DESC')
+        ->get();
 
-        // Get sales data
-        $salesData = Sales::join('sales_items', 'sales.id', '=', 'sales_items.sales_id')
-            ->whereMonth('sales.date', Carbon::now()->month)
-            ->whereNull('sales.deleted_at') // Ensures soft deleted records are excluded
-            ->whereNull('sales_items.deleted_at') // Ensures soft deleted records are excluded
-            ->select(
-                'sales_items.productName',
-                DB::raw('SUM(sales_items.qty) as total_sold')
-            )
-            ->groupBy('sales_items.productName') // Pastikan hasil dikelompokkan berdasarkan produk
-            ->orderBy('total_sold', 'DESC') // Urutkan dari yang paling laris
-            ->get();
-
-        return view('dashboard', compact('totalPurchasing', 'totalSales', 'totalProfit', 'totalDebt', 'salesData', 'monthlyProfit', 'isKasir'));
+    return view('dashboard', compact(
+        'totalPurchasing',
+        'totalSales',
+        'totalProfit',
+        'totalDebt',
+        'salesData',
+        'monthlyProfit',
+        'isKasir'
+    ));
     }
 }

@@ -4,6 +4,50 @@
 
 @section('content_header')
 <h1>Halaman Depan</h1>
+<div class="card shadow-sm border-0 mb-3 mt-3">
+  <div class="card-body">
+    <form method="GET" action="{{ route('dashboard') }}">
+      <div class="row align-items-end g-3">
+        
+        <div class="col-md-4">
+          <label for="start_date" class="form-label fw-semibold">
+            Tanggal Mulai
+          </label>
+          <input 
+            type="date" 
+            id="start_date" 
+            name="start_date" 
+            class="form-control" 
+            value="{{ request('start_date') }}"
+          >
+        </div>
+
+        <div class="col-md-4">
+          <label for="end_date" class="form-label fw-semibold">
+            Tanggal Akhir
+          </label>
+          <input 
+            type="date" 
+            id="end_date" 
+            name="end_date" 
+            class="form-control" 
+            value="{{ request('end_date') }}"
+          >
+        </div>
+
+        <div class="col-md-4 d-flex gap-4">
+          <button type="submit" class="btn btn-primary w-100" style="margin-right: 10px;">
+            Filter
+          </button>
+          <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary w-100">
+            Reset
+          </a>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
 @endsection
 
 @section('content')
