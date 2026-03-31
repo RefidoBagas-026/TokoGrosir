@@ -21,7 +21,6 @@
                     <table id="roleTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th scope="col">Nama Role</th>
                                 <th scope="col">Jumlah User</th>
                                 <th data-orderable="false" scope="col" width="350px">Action</th>
@@ -30,7 +29,6 @@
                         <tbody>
                             @foreach ($roles as $role)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $role->name }}</td>
                                 <td>{{ $role->users()->count() }}</td>
                                 <td style="display: flex; gap: 5px;">

@@ -62,7 +62,6 @@
                     <table id="stockTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th scope="col">Nama Barang</th>
                                 <th scope="col">Satuan</th>
                                 <th scope="col">Sisa Stock</th>
@@ -75,7 +74,6 @@
 
                             @foreach ($data as $c)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $c->productName }}</td>
                                 <td>{{ $c->uom }}</td>
                                 <td>{{ $c->remainingStock }}</td>

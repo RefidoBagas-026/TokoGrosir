@@ -79,7 +79,6 @@
                     <table id="purchTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th data-orderable="false" scope="col">Nama Supplier</th>
                                 <th scope="col">Tgl</th>
                                 <th data-orderable="false" scope="col">Barang</th>
@@ -93,7 +92,6 @@
 
                             @foreach ($data as $c)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $c->supplierName }}</td>
                                 <td>{{ \Carbon\Carbon::parse($c-> date)->format('d-M-Y') }}</td>
                                 <td>{{ $c->productName }}</td>

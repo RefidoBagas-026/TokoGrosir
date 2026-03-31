@@ -39,7 +39,6 @@
                     <table id="userTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Role</th>
@@ -49,7 +48,6 @@
                         <tbody>
                             @foreach ($users as $user)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->role ? $user->role->name : '-' }}</td>

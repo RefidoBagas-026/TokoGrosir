@@ -21,7 +21,6 @@
                     <table id="salesTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th data-orderable="false" scope="col">Nama Pembeli</th>
                                 <th data-orderable="true" scope="col">Tgl</th>
                                 <th data-orderable="true" scope="col">Total Harga</th>
@@ -35,7 +34,6 @@
 
                             @foreach ($data as $c)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $c->buyerName }}</td>
                                 <td>{{ \Carbon\Carbon::parse($c-> date)->format('d-M-Y') }}</td>
                                 <td>{{ number_format($c->totalPrice, 0, ',', '.') }}</td>

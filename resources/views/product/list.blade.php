@@ -35,7 +35,6 @@
                     <table id="productTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th data-orderable="false" scope="col">#</th>
                                 <th scope="col">Nama</th>
                                 <th data-orderable="false" scope="col">Satuan</th>
                                 <th data-orderable="false" scope="col" width="350px">Action</th>
@@ -45,7 +44,6 @@
 
                             @foreach ($product as $c)
                             <tr>
-                                <th scope="row">{{ ++$i }}</th>
                                 <td>{{ $c->name }}</td>
                                 <td>{{ $c->uom }}</td>
                                 <td style="display: flex; gap: 5px;">
